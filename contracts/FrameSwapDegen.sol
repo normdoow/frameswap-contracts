@@ -12,6 +12,12 @@ interface IERC20 {
         uint256 amount
     ) external returns (bool);
 
+    function transferFrom(
+        address from,
+        address to,
+        uint256 value
+    ) external returns (bool);
+
     function approve(address spender, uint256 amount) external returns (bool);
 }
 
@@ -33,6 +39,7 @@ contract FrameSwapDegen {
     function swapExactInputSingle(
         uint256 amountIn
     ) external returns (uint256 amountOut) {
+        degenToken.transferFrom(msg.sender, address(this), amountIn);
         degenToken.approve(address(swapRouter), amountIn);
 
         ISwapRouter.ExactInputSingleParams memory params = ISwapRouter
