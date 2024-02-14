@@ -23,13 +23,16 @@ interface IERC20 {
 
 contract FrameSwapDegen {
     address public constant routerAddress =
-        0x3fC91A3afd70395Cd496C647d5a6CC9D4B2b7FAD; // base router: 0x2626664c2603336E57B271c5C0b26F421741e481;
+        0xE592427A0AEce92De3Edee1F18E0157C05861564;
+    //swap 2; 0x3fC91A3afd70395Cd496C647d5a6CC9D4B2b7FAD; // base router: 0x2626664c2603336E57B271c5C0b26F421741e481;
     ISwapRouter public immutable swapRouter = ISwapRouter(routerAddress);
 
     address public constant DEGEN = 0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984; // degen: 0x4ed4E862860beD51a9570b96d89aF5E1B0Efefed;
     address public constant WETH = 0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6; // base: weth 0x4200000000000000000000000000000000000006;
 
+    //TODO: get tokens from ETH first
     IERC20 public degenToken = IERC20(DEGEN);
+    IERC20 public wethToken = IERC20(WETH);
 
     // For this example, we will set the pool fee to 0.3%.
     uint24 public constant poolFee = 3000;
@@ -39,15 +42,15 @@ contract FrameSwapDegen {
     function swapExactInputSingle(
         uint256 amountIn
     ) external returns (uint256 amountOut) {
-        degenToken.transferFrom(msg.sender, address(this), amountIn);
-        degenToken.approve(address(swapRouter), amountIn);
+        wethToken.transferFrom(msg.sender, address(this), amountIn);
+        wethToken.approve(address(swapRouter), amountIn);
 
         ISwapRouter.ExactInputSingleParams memory params = ISwapRouter
             .ExactInputSingleParams({
                 tokenIn: WETH,
                 tokenOut: DEGEN,
                 fee: poolFee,
-                recipient: address(this),
+                recipient: address(this), //need to send it to sender not myself
                 deadline: block.timestamp,
                 amountIn: amountIn,
                 amountOutMinimum: 0,

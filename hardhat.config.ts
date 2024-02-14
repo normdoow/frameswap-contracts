@@ -1,5 +1,8 @@
+import * as dotenv from "dotenv";
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox-viem";
+
+dotenv.config();
 
 const config: HardhatUserConfig = {
   solidity: "0.8.19",
@@ -17,6 +20,11 @@ const config: HardhatUserConfig = {
     },
     base: {
       url: process.env.BASE_GOERLI_URL || "",
+      accounts:
+        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+    },
+    goerli: {
+      url: process.env.GOERLI_URL || "",
       accounts:
         process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
     },
