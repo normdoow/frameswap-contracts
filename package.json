@@ -1,7 +1,14 @@
 {
-  "name": "hardhat-project",
+  "name": "frameswap-contracts",
+  "scripts": {
+    "compile": "npx hardhat compile",
+    "deploy": "npx hardhat run scripts/deploy.ts --network base --verbose",
+    "verify": "npx hardhat verify --network base 0x4B0c01D77e6eA05BD3Ee8818f1EB9a65F1b70cd7 \"0x0000000000CF4558c36229ac0026ee16D3aE35Cd\""
+  },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox-viem": "^2.0.0",
+    "@nomicfoundation/hardhat-verify": "^2.0.4",
+    "dotenv": "^16.4.4",
     "hardhat": "^2.19.5"
   }
 }
