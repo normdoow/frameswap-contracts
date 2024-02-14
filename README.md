@@ -1,6 +1,8 @@
-# Sample Hardhat Project
+# FrameSwap Contracts
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+Smart Contracts to handle swapping on Uniswap V3. Let's see where this project goes!
+
+Built with Hardhat.
 
 Try running some of the following tasks:
 
