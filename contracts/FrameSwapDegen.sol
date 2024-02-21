@@ -5,6 +5,9 @@ import "hardhat/console.sol";
 import "@uniswap/v3-periphery/contracts/interfaces/ISwapRouter.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
+// Swap onFrame on Farcaster
+// Checkout frameswap.fi by @nbragg
+
 interface IERC20 {
     function balanceOf(address account) external view returns (uint256);
 
@@ -28,12 +31,11 @@ contract FrameSwapDegen is Ownable {
     // base router: 0x2626664c2603336E57B271c5C0b26F421741e481;
     ISwapRouter public immutable swapRouter = ISwapRouter(routerAddress);
 
-    //TODO: Could do USDC
-    address public constant DEGEN = 0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984; // degen: 0x4ed4E862860beD51a9570b96d89aF5E1B0Efefed;
-    address public constant WETH = 0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6; // base: weth 0x4200000000000000000000000000000000000006;
+    address public constant DEGEN = 0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984; // base degen: 0x4ed4E862860beD51a9570b96d89aF5E1B0Efefed;
+    address public constant USDC = 0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6; // base usdc 0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913;
 
     IERC20 public degenToken = IERC20(DEGEN);
-    IERC20 public wethToken = IERC20(WETH);
+    IERC20 public usdcToken = IERC20(USDC);
 
     uint24 public constant poolFee = 3000;
     uint24 public constant frameSwapFee = 1500;
@@ -44,16 +46,16 @@ contract FrameSwapDegen is Ownable {
         uint256 amountIn,
         address recipient
     ) external onlyOwner returns (uint256 amountOut) {
-        wethToken.transferFrom(recipient, address(this), amountIn);
+        usdcToken.transferFrom(recipient, address(this), amountIn);
         uint256 amountInAfterFee = amountIn - (amountIn * frameSwapFee) / 1e6;
-        wethToken.approve(address(swapRouter), amountInAfterFee);
+        usdcToken.approve(address(swapRouter), amountInAfterFee);
 
         ISwapRouter.ExactInputSingleParams memory params = ISwapRouter
             .ExactInputSingleParams({
-                tokenIn: WETH,
+                tokenIn: USDC,
                 tokenOut: DEGEN,
                 fee: poolFee,
-                recipient: recipient, //need to send it to sender not myself
+                recipient: recipient,
                 deadline: block.timestamp,
                 amountIn: amountInAfterFee,
                 amountOutMinimum: 0,

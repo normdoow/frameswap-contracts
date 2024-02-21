@@ -1,6 +1,9 @@
 # FrameSwap Contracts
 
-Smart Contracts to handle swapping on Uniswap V3. Let's see where this project goes!
+Smart Contracts to handle swapping on Uniswap V3.
+Swap onFrame in Farcaster. Checkout [frameswap.fi](https://frameswap.fi)
+
+Let's see where this project goes!
 
 Built with Hardhat.
 
