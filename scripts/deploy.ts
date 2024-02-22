@@ -18,3 +18,4 @@ main().catch((error) => {
 });
 
 // goerli 0xa6e3e6e99aa2035bd8e824ab311983b415fe630a
+// goerli 0x3cdd2e241da1c993f0cbd74a39e56b18cd0287fc
