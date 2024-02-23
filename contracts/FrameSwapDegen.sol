@@ -65,10 +65,8 @@ contract FrameSwapDegen is Ownable {
         amountOut = swapRouter.exactInputSingle(params);
     }
 
-    //TODO: need to withdraw the token that we have.
     function withdraw() external onlyOwner {
-        uint balance = address(this).balance;
-        (bool success, ) = msg.sender.call{value: balance}("");
-        require(success, "Withdrawal failed");
+        uint256 balance = usdcToken.balanceOf(address(this));
+        usdcToken.transfer(owner(), balance);
     }
 }
