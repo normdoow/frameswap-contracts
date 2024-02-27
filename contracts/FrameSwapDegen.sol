@@ -44,7 +44,8 @@ contract FrameSwapDegen is Ownable {
 
     function swapExactInputSingle(
         uint256 amountIn,
-        address recipient
+        address recipient,
+        uint256 amountOutMinimum
     ) external onlyOwner returns (uint256 amountOut) {
         usdcToken.transferFrom(recipient, address(this), amountIn);
         uint256 amountInAfterFee = amountIn - (amountIn * frameSwapFee) / 1e6;
@@ -58,7 +59,7 @@ contract FrameSwapDegen is Ownable {
                 recipient: recipient,
                 deadline: block.timestamp,
                 amountIn: amountInAfterFee,
-                amountOutMinimum: 0,
+                amountOutMinimum: amountOutMinimum,
                 sqrtPriceLimitX96: 0
             });
 
