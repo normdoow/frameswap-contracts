@@ -19,3 +19,6 @@ main().catch((error) => {
 
 // goerli 0xa6e3e6e99aa2035bd8e824ab311983b415fe630a
 // goerli 0x3cdd2e241da1c993f0cbd74a39e56b18cd0287fc
+// goerli 0x0344d77f879b7f50397e33d627088fbe424fac5a
+// transaction test: https://goerli.etherscan.io/tx/0x960e6d5483f93af1df53c2b4b67a0a22b55efc54273aeadf4ff36273623cb614
+//goerli 0x5508e60f8d1140c1deabca80cb143f19d88cc2f4

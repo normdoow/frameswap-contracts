@@ -4,6 +4,7 @@ pragma solidity ^0.8.20;
 import "hardhat/console.sol";
 import "@uniswap/v3-periphery/contracts/interfaces/ISwapRouter.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/math/Math.sol";
 
 // Swap onFrame on Farcaster
 // Checkout frameswap.fi by @nbragg
@@ -26,6 +27,8 @@ interface IERC20 {
 }
 
 contract FrameSwapDegen is Ownable {
+    using Math for *;
+
     address public constant routerAddress =
         0xE592427A0AEce92De3Edee1F18E0157C05861564;
     // base router: 0x2626664c2603336E57B271c5C0b26F421741e481;
@@ -39,6 +42,7 @@ contract FrameSwapDegen is Ownable {
 
     uint24 public constant poolFee = 3000;
     uint24 public constant frameSwapFee = 1500;
+    uint constant bips = 1000000;
 
     constructor(address owner) Ownable(owner) {}
 
@@ -48,7 +52,7 @@ contract FrameSwapDegen is Ownable {
         uint256 amountOutMinimum
     ) external onlyOwner returns (uint256 amountOut) {
         usdcToken.transferFrom(recipient, address(this), amountIn);
-        uint256 amountInAfterFee = amountIn - (amountIn * frameSwapFee) / 1e6;
+        uint256 amountInAfterFee = amountIn - getFee(amountIn);
         usdcToken.approve(address(swapRouter), amountInAfterFee);
 
         ISwapRouter.ExactInputSingleParams memory params = ISwapRouter
@@ -64,6 +68,10 @@ contract FrameSwapDegen is Ownable {
             });
 
         amountOut = swapRouter.exactInputSingle(params);
+    }
+
+    function getFee(uint256 amountIn) internal pure returns (uint256) {
+        return Math.mulDiv(amountIn, frameSwapFee, bips);
     }
 
     function withdraw() external onlyOwner {
