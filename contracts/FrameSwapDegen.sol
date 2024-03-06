@@ -34,14 +34,17 @@ contract FrameSwapDegen is Ownable {
     // base router: 0x2626664c2603336E57B271c5C0b26F421741e481;
     ISwapRouter public immutable swapRouter = ISwapRouter(routerAddress);
 
-    address public constant DEGEN = 0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984; // base degen: 0x4ed4E862860beD51a9570b96d89aF5E1B0Efefed;
     address public constant USDC = 0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6; // base usdc 0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913;
+    address public constant WETH9 = 0x87355D7d4736c7641452563620aF267634E7F557; //base weth 0x4200000000000000000000000000000000000006;
+    address public constant DEGEN = 0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984; // base degen: 0x4ed4E862860beD51a9570b96d89aF5E1B0Efefed;
 
     IERC20 public degenToken = IERC20(DEGEN);
     IERC20 public usdcToken = IERC20(USDC);
 
-    uint24 public constant poolFee = 3000;
+    uint24 public constant usdcPoolFee = 500;
+    uint24 public constant degenPoolFee = 3000;
     uint24 public constant frameSwapFee = 1500;
+    uint24 public constant gasFee = 2000000; //$2
     uint constant bips = 1000000;
 
     constructor(address owner) Ownable(owner) {}
@@ -52,22 +55,25 @@ contract FrameSwapDegen is Ownable {
         uint256 amountOutMinimum
     ) external onlyOwner returns (uint256 amountOut) {
         usdcToken.transferFrom(recipient, address(this), amountIn);
-        uint256 amountInAfterFee = amountIn - getFee(amountIn);
+        uint256 amountInAfterFee = amountIn - getFee(amountIn) - gasFee;
         usdcToken.approve(address(swapRouter), amountInAfterFee);
 
-        ISwapRouter.ExactInputSingleParams memory params = ISwapRouter
-            .ExactInputSingleParams({
-                tokenIn: USDC,
-                tokenOut: DEGEN,
-                fee: poolFee,
+        ISwapRouter.ExactInputParams memory params = ISwapRouter
+            .ExactInputParams({
+                path: abi.encodePacked(
+                    USDC,
+                    usdcPoolFee,
+                    WETH9,
+                    degenPoolFee,
+                    DEGEN
+                ),
                 recipient: recipient,
                 deadline: block.timestamp,
                 amountIn: amountInAfterFee,
-                amountOutMinimum: amountOutMinimum,
-                sqrtPriceLimitX96: 0
+                amountOutMinimum: amountOutMinimum
             });
 
-        amountOut = swapRouter.exactInputSingle(params);
+        amountOut = swapRouter.exactInput(params);
     }
 
     function getFee(uint256 amountIn) internal pure returns (uint256) {
