@@ -19,7 +19,7 @@ const config: HardhatUserConfig = {
       },
     },
     base: {
-      url: process.env.BASE_GOERLI_URL || "",
+      url: process.env.BASE_URL || "",
       accounts:
         process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
     },

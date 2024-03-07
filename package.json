@@ -3,7 +3,7 @@
   "scripts": {
     "compile": "npx hardhat compile",
     "deploy": "npx hardhat run scripts/deploy.ts --network goerli --verbose",
-    "verify": "npx hardhat verify --network goerli 0x5508e60f8d1140c1deabca80cb143f19d88cc2f4 '0xe34ddf3971c259e2966ca47d935b9636d3d9fff5'"
+    "verify": "npx hardhat verify --network goerli 0x673a2a906e17900b46bbe670c1828c49269f91fe '0xe34ddf3971c259e2966ca47d935b9636d3d9fff5'"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox-viem": "^2.0.0",

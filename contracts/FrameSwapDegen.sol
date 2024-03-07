@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.20;
 
-import "hardhat/console.sol";
 import "@uniswap/v3-periphery/contracts/interfaces/ISwapRouter.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/math/Math.sol";
@@ -30,13 +29,12 @@ contract FrameSwapDegen is Ownable {
     using Math for *;
 
     address public constant routerAddress =
-        0xE592427A0AEce92De3Edee1F18E0157C05861564;
-    // base router: 0x2626664c2603336E57B271c5C0b26F421741e481;
+        0x2626664c2603336E57B271c5C0b26F421741e481;
     ISwapRouter public immutable swapRouter = ISwapRouter(routerAddress);
 
-    address public constant USDC = 0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6; // base usdc 0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913;
-    address public constant WETH9 = 0x87355D7d4736c7641452563620aF267634E7F557; //base weth 0x4200000000000000000000000000000000000006;
-    address public constant DEGEN = 0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984; // base degen: 0x4ed4E862860beD51a9570b96d89aF5E1B0Efefed;
+    address public constant USDC = 0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913;
+    address public constant WETH9 = 0x4200000000000000000000000000000000000006;
+    address public constant DEGEN = 0x4ed4E862860beD51a9570b96d89aF5E1B0Efefed;
 
     IERC20 public degenToken = IERC20(DEGEN);
     IERC20 public usdcToken = IERC20(USDC);
@@ -44,8 +42,8 @@ contract FrameSwapDegen is Ownable {
     uint24 public constant usdcPoolFee = 500;
     uint24 public constant degenPoolFee = 3000;
     uint24 public constant frameSwapFee = 1500;
-    uint24 public constant gasFee = 2000000; //$2
-    uint constant bips = 1000000;
+    uint24 public constant gasFee = 2_000_000; //$2
+    uint constant bips = 1_000_000;
 
     constructor(address owner) Ownable(owner) {}
 
