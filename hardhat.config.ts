@@ -37,11 +37,12 @@ const config: HardhatUserConfig = {
   etherscan: {
     // Your API key for Etherscan
     // Obtain one at https://etherscan.io/
-    apiKey: process.env.ETHERSCAN_API_KEY ?? "",
-    // apiKey: {
-    //   optimisticEthereum: process.env.ETHERSCAN_API_KEY ?? "",
-    //   optimisticGoerli: process.env.ETHERSCAN_API_KEY ?? "",
-    // },
+    // apiKey: process.env.ETHERSCAN_API_KEY ?? "",
+    apiKey: {
+      base: process.env.BASESCAN_API_KEY ?? "",
+      // optimisticEthereum: process.env.ETHERSCAN_API_KEY ?? "",
+      // optimisticGoerli: process.env.ETHERSCAN_API_KEY ?? "",
+    },
   },
 };
 

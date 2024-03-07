@@ -22,3 +22,5 @@ main().catch((error) => {
 // goerli 0x0344d77f879b7f50397e33d627088fbe424fac5a
 // transaction test: https://goerli.etherscan.io/tx/0x960e6d5483f93af1df53c2b4b67a0a22b55efc54273aeadf4ff36273623cb614
 //goerli 0x5508e60f8d1140c1deabca80cb143f19d88cc2f4
+
+//base deployment: 0xef39827c004984b8b48c68d0535e774eeb7adcfa
